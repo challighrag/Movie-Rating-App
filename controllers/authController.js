@@ -2,15 +2,26 @@ const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   try {
-    const userExists = await User.findOne({ username });
-    if (userExists) return res.status(400).json({ message: 'User already exists' });
+    const userExists = await User.findOne({
+      $or: [{email}, {username}]
+    });
+    if (userExists){
+      if (userExists.username == username) {
+        return res.status(409).json({ message: 'Username already taken' });
+      }
+      else {
+        return res.status(409).json({ message: 'Email already in use' });
+      }
+    }
 
-    const user = await User.create({ username, password });
+    const user = new User({ username, email, password });
+    await user.save();
     res.status(201).json({ _id: user._id, username: user.username, token: generateToken(user._id) });
   } catch (err) {
     res.status(500).json({ message: 'Error creating user' });
+    console.error(`Error creating user: ${err}`);
   }
 };
 
@@ -25,5 +36,6 @@ exports.login = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ message: 'Login failed' });
+    console.error(`Login error: ${err}`);
   }
 };
