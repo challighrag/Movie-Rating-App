@@ -30,7 +30,7 @@ async function register() {
   }
 
   try {
-    const res = await fetch('http://localhost:5000/api/auth/register', {
+    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password })
@@ -65,7 +65,7 @@ async function login() {
   }
 
   try {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -114,8 +114,8 @@ function updateAuthUI(isLoggedIn) {
 async function loadMovies(query = '') {
   try {
     const url = query 
-      ? `http://localhost:5000/api/movies?q=${query}`
-      : 'http://localhost:5000/api/movies';
+      ? `https://movie-rating-app-pn7a.onrender.com/api/movies?q=${query}`
+      : 'https://movie-rating-app-pn7a.onrender.com/api/movies';
       
     const res = await fetch(url);
     const movies = await res.json();
@@ -154,7 +154,7 @@ function displayMovies(movies) {
 
 async function showReviews(movieId, movieTitle) {
   try {
-    const res = await fetch(`http://localhost:5000/api/reviews/${movieId}`);
+    const res = await fetch(`https://movie-rating-app-pn7a.onrender.com/api/reviews/${movieId}`);
     const reviews = await res.json();
     
     const modal = document.getElementById('reviews-modal');
@@ -189,7 +189,7 @@ async function submitReview(movieId) {
   }
 
   try {
-    const res = await fetch('http://localhost:5000/api/reviews', {
+    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
