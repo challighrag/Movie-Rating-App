@@ -142,7 +142,7 @@ function displayMovies(movies) {
         <div class="review-form">
           <textarea id="comment-${movie._id}" placeholder="Leave a review"></textarea>
           <div>
-            <input type="number" id="rating-${movie._id}" min="1" max="5" placeholder="Rate (1-5)">
+            <input type="number" id="rating-${movie._id}" min="1" max="5" placeholder="Rate">
             <button onclick="submitReview('${movie._id}')">Submit Review</button>
           </div>
         </div>
