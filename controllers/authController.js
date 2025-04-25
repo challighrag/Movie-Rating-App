@@ -2,7 +2,7 @@ const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, isAdmin } = req.body;
   try {
     const userExists = await User.findOne({
       $or: [{email}, {username}]
@@ -16,9 +16,9 @@ exports.register = async (req, res) => {
       }
     }
 
-    const user = new User({ username, email, password });
+    const user = new User({ username, email, password, isAdmin: isAdmin || false });
     await user.save();
-    res.status(201).json({ _id: user._id, username: user.username, token: generateToken(user._id) });
+    res.status(201).json({ _id: user._id, username: user.username, token: generateToken(user._id), isAdmin:isAdmin });
   } catch (err) {
     res.status(500).json({ message: 'Error creating user' });
     console.error(`Error creating user: ${err}`);
@@ -26,11 +26,11 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, isAdmin } = req.body;
   try {
     const user = await User.findOne({ username });
     if (user && (await user.matchPassword(password))) {
-      res.json({ _id: user._id, username: user.username, token: generateToken(user._id) });
+      res.json({ _id: user._id, username: user.username, token: generateToken(user._id), isAdmin:isAdmin });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
