@@ -26,11 +26,11 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password, isAdmin } = req.body;
+  const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
     if (user && (await user.matchPassword(password))) {
-      res.json({ _id: user._id, username: user.username, token: generateToken(user._id), isAdmin:isAdmin });
+      res.json({ _id: user._id, username: user.username, token: generateToken(user._id, user.isAdmin), isAdmin:user.isAdmin });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }

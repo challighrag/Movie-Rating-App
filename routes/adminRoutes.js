@@ -22,7 +22,7 @@ router.post('/add', verifyAdmin, async (req, res) => {
 
 router.delete('/delete/:id', verifyAdmin, async (req, res) => {
   try {
-    const reviewExists = await Review.findOne({title})
+    // const reviewExists = await Review.findOne({title})
     await Review.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Review deleted' });
   } catch (err) {

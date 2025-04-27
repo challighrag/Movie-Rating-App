@@ -177,8 +177,33 @@ input[type="email"]:valid {
   color: var(--primary-color);
   text-decoration: underline;
 }
+#add-movie-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#add-movie-btn:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#add-movie-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 .search-section {
+  display: flex;
+  gap: 10px;
   margin-bottom: 30px;
 }
 
@@ -188,6 +213,7 @@ input[type="email"]:valid {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+  flex-grow: 1;
 }
 
 .movies-grid {
@@ -339,6 +365,64 @@ input[type="email"]:valid {
 .review-text {
   color: var(--dark-color);
 }
+/* Add these to your existing CSS */
+.delete-review-btn {
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+
+.delete-review-btn:hover {
+  background-color: #cc0000;
+  transform: translateY(-1px);
+}
+
+.popup-content button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.popup-content button:first-of-type {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.popup-content button:last-of-type {
+  background-color: var(--danger-color);
+  color: white;
+}
+/* Popup Form Styling */
+.popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-content input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+}
+
 
 @media (max-width: 768px) {
   h1 {
