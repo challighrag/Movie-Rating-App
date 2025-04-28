@@ -1,5 +1,4 @@
 const Movie = require('../models/Movie');
-const Review = require('../models/Review');
 
 exports.getMovies = async (req, res) => {
   try {

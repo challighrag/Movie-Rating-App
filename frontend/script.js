@@ -33,7 +33,7 @@ async function addMovie() {
   }
 
   try {
-    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/admin/add', {
+    const res = await fetch('http://localhost:5000/api/admin/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,11 +66,16 @@ function setupAdminView() {
   }
 };
 
+document.getElementById('admin-register').addEventListener('change', function(e) {
+  const adminPass = document.getElementById('admin-pass');
+  adminPass.style.display = e.target.checked ? 'block' : 'none';
+});
 async function register() {
   const username = document.getElementById('reg-username').value;
   const password = document.getElementById('reg-password').value;
   const email = document.getElementById('reg-email').value;
   const isAdmin = document.getElementById('admin-register').checked;
+  const adminPassword = isAdmin ? document.getElementById('admin-password').value : null;
   
   if (!username || !password || !email) {
     alert('Please enter username, password, and e-mail');
@@ -83,10 +88,10 @@ async function register() {
   }
 
   try {
-    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/auth/register', {
+    const res = await fetch('http://localhost:5000/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, isAdmin })
+      body: JSON.stringify({ username, email, password, isAdmin, adminPassword })
     });
     const data = await res.json();
     if (data.token) {
@@ -99,6 +104,8 @@ async function register() {
       document.getElementById('reg-password').value = "";
       document.getElementById('reg-email').value = "";
       document.getElementById('admin-register').checked = false;
+      document.getElementById('admin-password').value = "";
+      document.getElementById('admin-pass').style.display = 'none';
       toggleAuthForm();
       setupAdminView();
       loadMovies();
@@ -121,7 +128,7 @@ async function login() {
   }
 
   try {
-    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/auth/login', {
+    const res = await fetch('http://localhost:5000/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -174,8 +181,8 @@ function updateAuthUI(isLoggedIn) {
 async function loadMovies(query = '') {
   try {
     const url = query 
-      ? `https://movie-rating-app-pn7a.onrender.com/api/movies?q=${query}`
-      : 'https://movie-rating-app-pn7a.onrender.com/api/movies';
+      ? `http://localhost:5000/api/movies?q=${query}`
+      : 'http://localhost:5000/api/movies';
       
     const res = await fetch(url);
     const movies = await res.json();
@@ -214,7 +221,7 @@ function displayMovies(movies) {
 
 async function showReviews(movieId, movieTitle) {
   try {
-    const res = await fetch(`https://movie-rating-app-pn7a.onrender.com/api/reviews/${movieId}`);
+    const res = await fetch(`http://localhost:5000/api/reviews/${movieId}`);
     const reviews = await res.json();
     
     const modal = document.getElementById('reviews-modal');
@@ -243,7 +250,7 @@ async function deleteReview(reviewId) {
   if (!confirm('Are you sure you want to delete this review?')) return;
   
   try {
-    const res = await fetch(`https://movie-rating-app-pn7a.onrender.com/api/admin/delete/${reviewId}`, {
+    const res = await fetch(`http://localhost:5000/api/admin/delete/${reviewId}`, {
       method: 'DELETE',
       headers: {'Authorization': `Bearer ${token}`}
     });
@@ -278,7 +285,7 @@ async function submitReview(movieId) {
   }
 
   try {
-    const res = await fetch('https://movie-rating-app-pn7a.onrender.com/api/reviews', {
+    const res = await fetch('http://localhost:5000/api/reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
